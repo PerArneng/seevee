@@ -28,6 +28,20 @@ public class SeeVeeCliApplication {
 					.description("the skill file to process")
 					.type(String.class)
 				.and()
+				.withOption()
+					.longNames("output-file")
+					.shortNames('o')
+					.required()
+					.description("the output skill file")
+					.type(String.class)
+				.and()
+				.withOption()
+					.longNames("job-ad-file")
+					.shortNames('j')
+					.required()
+					.description("the job ad text file")
+					.type(String.class)
+				.and()
 				.build();
 	}
 

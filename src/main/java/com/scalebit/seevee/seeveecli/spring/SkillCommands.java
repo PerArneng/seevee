@@ -21,6 +21,14 @@ public class SkillCommands {
         String skillFilePath = commandContext.getOptionValue("skill-file");
         Path skillFile = Paths.get(skillFilePath);
 
+        String outputFilePath = commandContext.getOptionValue("output-file");
+        Path outputFile = Paths.get(outputFilePath);
+
+        if (!Files.exists(outputFile.getParent())) {
+            logger.error("Parent directory {} does not exist.", outputFile.getParent().toString());
+            throw new RuntimeException("Parent directory does not exist.");
+        }
+
         if (!Files.exists(skillFile)) {
             logger.error("File {} does not exist.", skillFile.toString());
             return;
