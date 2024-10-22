@@ -1,5 +1,8 @@
 package com.scalebit.seevee.seeveecli.spring;
 
+import com.scalebit.seevee.seeveecli.skills.JsonSkills;
+import com.scalebit.seevee.seeveecli.skills.Skills;
+import com.scalebit.seevee.seeveecli.skills.SkillsIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.shell.command.CommandContext;
@@ -7,6 +10,7 @@ import org.springframework.shell.command.CommandContext;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class SkillCommands {
@@ -14,24 +18,25 @@ public class SkillCommands {
     private static final Logger logger = LoggerFactory.getLogger(SkillCommands.class);
 
     public static void optimize(CommandContext commandContext) {
-        File skillFile = commandContext.getOptionValue("skill-file");
+        String skillFilePath = commandContext.getOptionValue("skill-file");
+        Path skillFile = Paths.get(skillFilePath);
 
-        if (!skillFile.exists()) {
-            logger.error("File {} does not exist.", skillFile.getPath());
+        if (!Files.exists(skillFile)) {
+            logger.error("File {} does not exist.", skillFile.toString());
             return;
         }
 
-        if (!skillFile.getName().endsWith(".json")) {
+        if (!skillFile.toString().endsWith(".json")) {
             System.out.println("File is not a JSON file.");
             return;
         }
 
         try {
-            String content = new String(Files.readAllBytes(Paths.get(skillFile.getPath())));
-            // Add your JSON processing logic here
-            System.out.println("File is valid and ready for processing.");
+            Skills skills = SkillsIO.readSkillsFromFile(skillFile);
+            String json = JsonSkills.serialize(skills);
+            System.out.println(json);
         } catch (IOException e) {
-            System.out.println("Error reading the file.");
+            logger.error("error reading the file!", e);
         }
     }
 

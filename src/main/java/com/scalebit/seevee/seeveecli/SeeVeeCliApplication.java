@@ -8,6 +8,7 @@ import org.springframework.shell.command.CommandRegistration;
 import org.springframework.shell.command.annotation.EnableCommand;
 
 import java.io.File;
+import java.nio.file.Path;
 
 @SpringBootApplication
 public class SeeVeeCliApplication {
@@ -25,7 +26,7 @@ public class SeeVeeCliApplication {
 					.shortNames('f')
 					.required()
 					.description("the skill file to process")
-					.type(File.class)
+					.type(String.class)
 				.and()
 				.build();
 	}
