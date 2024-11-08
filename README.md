@@ -1,3 +1,5 @@
+ARCHIVED: See https://github.com/PerArneng/cvee instead
+
 # SeeVee
 A tool to work with CV related data structures
 
